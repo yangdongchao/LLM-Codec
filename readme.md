@@ -1,23 +1,44 @@
-# Towards Few-shot Audio Task Learners with LLAMA-Codec: A Preliminary Study
-This Repository provides a language-driven audio codec model (LLAMA-Codec), which can be used to build multi-modal LLMs (text and audio modalities). The details and paper will be released as soon as possible.
+# UniAudio 1.5: Large Language Model-driven Audio Codec is A Few-shot Audio Task Learner
+This Repository provides a Large Language Model-driven audio codec model (LLM-Codec), which can be used to build multi-modal LLMs (text and audio modalities). The details and paper will be released as soon as possible.
 More details will be introduced as soon as.
 
 ## Introduction
-In this study, we raise two fundamental questions in the audio research community: (1) whether exploring few-shot task learners (or in-context learning) is promising and beneficial for the audio research and application community. (2) if the answer is positive, how to build a model that has in-context ability in the audio domain. For the first question, we hold a positive attitude to build a few-shot audio task learners, especially, when we see the success of large-language models (LLMs) and multi-modal large-language models. We leave a deeper discussion for the first problem in the audio research community. We focus on giving a preliminary study for the second question. Firstly, we propose to bridge the gap between text and audio modalities by learning a language-driven audio codec model (LLAMA-Codec). After that, LLAMA-Codec can be used to transfer the audio modality into the same representation space with text, which provides an opportunity to directly use the in-context learning ability of pre-trained LLMs to solve audio tasks in a few-shot style. Specifically, we directly use the vocabulary of LLAMA2 as the codebooks of audio codec and train VQ-VAE style codec models. We demonstrate that the LLAMA-Codec not only possesses strong reconstruction abilities for audio data, but is also well-suited to serve as a connector between audio and text modalities. Experimentally, we show it can solve many audio understanding and generation tasks in a few-shot way without any fine-tuning, such as speech emotion classification, speech command recognition, audio classification, and simple text-to-speech generation text-to-sound generation, and speech denoising. To facilitate research on few-shot audio task learning and multi-modal LLMs, we have open-sourced the LLAMA-Codec model.
+The Large Language models (LLMs) have demonstrated supreme capabilities in text understanding and generation, but cannot be directly applied to cross-modal tasks without fine-tuning. This paper proposes a cross-modal in-context learning approach, empowering the frozen LLMs to achieve multiple audio tasks in a few-shot style without any parameter update. Specifically, we propose a novel and LLMs-driven audio codec model, LLM-Codec, to transfer the audio modality into the textual space, \textit{i.e.} representing audio tokens with words or sub-words in the vocabulary of LLMs, while keeping high audio reconstruction quality. The key idea is to reduce the modality heterogeneity between text and audio by compressing the audio modality into a well-trained LLMs token space. Thus, the audio representation can be viewed as a new \textit{foreign language}, and LLMs can learn the new \textit{foreign language} with several demonstrations. In experiments, we investigate the performance of the proposed approach across multiple audio understanding and generation tasks, \textit{e.g.} speech emotion classification, audio classification, text-to-speech generation, speech enhancement, etc. The experimental results demonstrate that the LLMs equipped with the proposed LLM-Codec, named as UniAudio 1.5, prompted by only a few examples, can achieve the expected functions in simple scenarios. It validates the feasibility and effectiveness of the proposed cross-modal in-context learning approach. 
 
 <!-- ![The overview of UniAudio](fig/llama_code.png) -->
 
 
-<!-- ## How to use LLAMA-Codec?
+## How to use LLM-Codec?
 step 1:
 ```
-wegt https://huggingface.co/Dongchao/UniAudio/resolve/main/ckpt_00145000.pth
+download the checkpoint (wget https://huggingface.co/Dongchao/UniAudio/resolve/main/llm3_codec_uni.pth)
 ```
 Step 2: Download LLAMA 2 7B based on https://github.com/meta-llama/llama-recipes/tree/main <br>
 Step 3: refer to infer.py
 ```
 python infer.py
-``` -->
+```
+
+## How to use LLM-Code and LLAMA 2 (UniAudio 1.5)
+In the following, we give a simple demonstration to use it.
+```
+CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node 1 --master_port=10645 infer_code/eval_accent_understanding_v2.py \
+            --batch_size 1 \
+            --max_seq_len 2048 \
+            --num_workers 0 \
+            --output_type "next_token_prediction" \
+            --audio_path "the path of audio folder" \
+            --file_path tsv/acc_9way_1_shot.scp \
+            --vq_config_path config.yaml \
+            --output_dir log_eval_few_shot/7B_output \
+            --llama_model_path llama_inference/llama-2-7b \
+            --induction 1 \
+            --codec_ckpt "llm-codec.pth" \
+
+```
+
+## Demos
+Please refer to demos folder to listen the generated audio.
 
 
 ### Acknowledgements
