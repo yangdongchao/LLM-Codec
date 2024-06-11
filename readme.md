@@ -1,5 +1,5 @@
 # UniAudio 1.5
-This Repository provides a Large Language Model-driven audio codec model, which can be used to build multi-modal LLMs (text and audio modalities). The details and paper will be released as soon as possible.
+This Repository provides an audio codec model, which can be used to build multi-modal LLMs (text and audio modalities). The details and paper will be released as soon as possible.
 More details will be introduced as soon as.
 
 ## Introduction
