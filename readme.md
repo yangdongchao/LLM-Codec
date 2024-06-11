@@ -1,5 +1,5 @@
-# UniAudio 1.5: Large Language Model-driven Audio Codec is A Few-shot Audio Task Learner
-This Repository provides a Large Language Model-driven audio codec model (LLM-Codec), which can be used to build multi-modal LLMs (text and audio modalities). The details and paper will be released as soon as possible.
+# UniAudio 1.5
+This Repository provides a Large Language Model-driven audio codec model, which can be used to build multi-modal LLMs (text and audio modalities). The details and paper will be released as soon as possible.
 More details will be introduced as soon as.
 
 ## Introduction
