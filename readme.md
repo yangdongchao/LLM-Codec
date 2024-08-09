@@ -10,7 +10,6 @@ The Large Language models (LLMs) have demonstrated supreme capabilities in text 
 ## How to use LLM-Codec?
 step 1:
 ```
-<!-- download the checkpoint (wget https://huggingface.co/Dongchao/UniAudio/resolve/main/llm3_codec_uni.pth) -->
 wget https://huggingface.co/Dongchao/2024/blob/main/semantic_acoustic.pth
 ```
 Step 2: Download LLAMA 2 7B based on https://github.com/meta-llama/llama-recipes/tree/main <br>
