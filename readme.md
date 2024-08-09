@@ -10,7 +10,7 @@ The Large Language models (LLMs) have demonstrated supreme capabilities in text 
 ## How to use LLM-Codec?
 step 1:
 ```
-wget https://huggingface.co/Dongchao/2024/blob/main/semantic_acoustic.pth
+wget https://huggingface.co/Dongchao/2024/resolve/main/semantic_acoustic.pth
 ```
 Step 2: Download LLAMA 2 7B based on https://github.com/meta-llama/llama-recipes/tree/main <br>
 Step 3: refer to infer.py
