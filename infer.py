@@ -1,21 +1,25 @@
 from omegaconf import OmegaConf
 from codec.MSCodec import MSCodecLM
+import torch
+import torchaudio
+import numpy as np
 from llama_inference.llama import Tokenizer, ModelArgs # 
 
-llama_model_path = '' # download llama 2 7B from https://github.com/meta-llama/llama-recipes/tree/main
+llama_model_path = 'llama_inference/llama-2-7b' # download llama 2 7B from https://github.com/meta-llama/llama-recipes/tree/main
 text_tokenizer = Tokenizer(model_path=llama_model_path + "/tokenizer.model")
 # load model
 vq_config_path = 'config.yaml'
-codec_ckpt = 'ckpt_00145000.pth' # set the ckpt path
+codec_ckpt = 'ckpt' # set the ckpt path
 device = 'cuda'
-exp_model_config = OmegaConf.load()
+exp_model_config = OmegaConf.load(vq_config_path)
 model = MSCodecLM(**exp_model_config.generator.config)  
 parameter_dict = torch.load(codec_ckpt)
 model.load_state_dict(parameter_dict['codec_model']) # load model
+print('model ', model)
 model.to(device)
 model.eval()
 vq1_texts = np.load("layer1.npy", allow_pickle=True)
-wav_root = ''
+wav_root = 'test.wav' # your test wave
 wav, sr = torchaudio.load(wav_root)
 if sr != 16000:
     wav = convert_audio(wav, sr, 16000, 1)
@@ -35,9 +39,10 @@ with torch.no_grad():
                 setence += ' ' + str(wo)
             else:
                 tmp = code[0,j].item()
-                wo = self.text_tokenizer.decode(tmp)
+                wo = text_tokenizer.decode(tmp)
                 setence += ' ' + str(wo)
                 my_code.append(tmp)
 # decode to wav
-x = model.decode(codes)
+print(my_code, setence)
+#x = model.decode(codes)
 
